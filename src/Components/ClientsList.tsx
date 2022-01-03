@@ -14,7 +14,6 @@ const ClientsList = () => {
                   <Text style={styles.row}>{`${data.item.last_name} ${data.item.first_name}`}</Text>
                   <Text style={styles.row}>{data.item.age}</Text>
                   <Text style={styles.row}>{data.item.email}</Text>
-
               </View>
           )}
         )}

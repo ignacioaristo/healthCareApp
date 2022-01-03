@@ -64,10 +64,10 @@ const App = () => {
   };
 
   return (
-    <View>
+    <SafeAreaView>
       <Header />
       <ClientsList />
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -65,8 +65,8 @@ const App = () => {
 
   return (
     <SafeAreaView>
-      <Header />
-      <ClientsList />
+        <Header />
+        <ClientsList />
     </SafeAreaView>
   );
 };

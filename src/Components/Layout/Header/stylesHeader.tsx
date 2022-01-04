@@ -7,8 +7,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  title: {
-    fontSize: 50,
-    color: 'white',
+  imageTitle: {
+    width: '100%',
+    height: '100%'
   }
 })

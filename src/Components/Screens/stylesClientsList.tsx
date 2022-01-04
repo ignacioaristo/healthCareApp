@@ -1,13 +1,18 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  table: {
+  row: {
+    margin: 15,
+    maxWidth: 250,
+  },
+  rowContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     backgroundColor: 'grey',
     borderWidth: 0.5,
   },
-  row: {
+  deleteButton: {
     margin: 15,
   }
 })

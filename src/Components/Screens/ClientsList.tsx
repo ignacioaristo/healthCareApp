@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, FlatList, TouchableOpacity } from 'react-native';
+import { Text, View, FlatList, TouchableOpacity, TextInput } from 'react-native';
 import ClientsDATA from '../../../MOCK_DATA.json';
+import ClientForm from './ClientForm';
 import { styles } from './stylesClientsList';
 
-const ClientsList = ({ navigation }) => {
+const ClientsList = ({ navigation: any }) => {
 
   const [clientList, setClientList] = useState(ClientsDATA);
 
@@ -13,6 +14,7 @@ const ClientsList = ({ navigation }) => {
 
   return (
     <View>
+      <ClientForm clientList={clientList} setClientList={setClientList} />
       <FlatList
         data={clientList}
         keyExtractor={(client) => `${client.id}`}

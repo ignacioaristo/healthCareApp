@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
+import { stringify, v4 as uuidv4 } from 'uuid';
 
 const ClientForm = (props: any) => {
 
   const onSubmitPressed = (data) => {
     const newClient = {
+      id: uuidv4(),
       first_name: data.first_name,
       last_name: data.last_name,
       email: data.email,
       age: data.age,
     }
-    props.setClientList([...props.clientList, newClient]);
+    console.log(props.clientList);
+    console.log(data)
+    if(newClient.id !== props.selectedClient.id){
+      return  props.setClientList([...props.clientList, newClient])
+    }
   }
 
-  const {control, handleSubmit} = useForm();
+  const {control, handleSubmit, reset, setValue} = useForm();
   return(
     <View>
       <Text>Client Form:</Text>
@@ -27,6 +33,7 @@ const ClientForm = (props: any) => {
           placeholder='First Name'
           onChangeText={onChange}
           onBlur={onBlur}
+          value={props.selectedClient.first_name}
         />}
         />
         <Controller
@@ -37,17 +44,7 @@ const ClientForm = (props: any) => {
           placeholder='Last Name'
           onChangeText={onChange}
           onBlur={onBlur}
-
-        />}
-        />
-        <Controller
-        control={control}
-        name='age'
-        render={({field: {value, onChange, onBlur}}) =>
-        <TextInput
-          placeholder='Age'
-          onChangeText={onChange}
-          onBlur={onBlur}
+          value={props.selectedClient.last_name}
         />}
         />
         <Controller
@@ -58,6 +55,18 @@ const ClientForm = (props: any) => {
           placeholder='Email'
           onChangeText={onChange}
           onBlur={onBlur}
+          value={props.selectedClient.email}
+        />}
+        />
+        <Controller
+        control={control}
+        name='age'
+        render={({field: {value, onChange, onBlur}}) =>
+        <TextInput
+          placeholder='Age'
+          onChangeText={onChange}
+          onBlur={onBlur}
+          value={props.selectedClient.age}
         />}
         />
       </View>

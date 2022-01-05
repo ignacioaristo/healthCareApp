@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CurrentRenderContext } from '@react-navigation/native';
 
 const LogIn = ({ navigation }) => {
 
@@ -18,7 +19,7 @@ const LogIn = ({ navigation }) => {
       }
     }
     getData();
-  })
+  }, [])
 
   const [logInData, setLogInData] = useState({
     username: '',
@@ -27,7 +28,7 @@ const LogIn = ({ navigation }) => {
 
   const { control, handleSubmit, reset, setValue } = useForm();
 
-  const storageDataUser = async (logInData: any) => {
+  const storageDataUser = async (logInData: IUser) => {
     try {
       const jsonValue = JSON.stringify(logInData)
       await AsyncStorage.setItem('user', jsonValue)
@@ -36,7 +37,12 @@ const LogIn = ({ navigation }) => {
     }
   }
 
-  const logInSubmit = (data) => {
+  interface IUser {
+    username: string,
+    password: string,
+  }
+
+  const logInSubmit = (data: IUser) => {
     setLogInData({
       username: data.username,
       password: data.password,

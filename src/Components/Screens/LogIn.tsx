@@ -6,11 +6,11 @@ import { CurrentRenderContext } from '@react-navigation/native';
 
 const LogIn = ({ navigation }) => {
 
-  useEffect(() => {
+  // useEffect(() => {
     const getData = async () => {
       try {
         const jsonValue = await AsyncStorage.getItem('user')
-        console.log(jsonValue);
+        // console.log(jsonValue);
         if(jsonValue !== null){
           return navigation.navigate('Home')
         }
@@ -19,7 +19,7 @@ const LogIn = ({ navigation }) => {
       }
     }
     getData();
-  }, [])
+  // }, [])
 
   const [logInData, setLogInData] = useState({
     username: '',
@@ -48,6 +48,7 @@ const LogIn = ({ navigation }) => {
       password: data.password,
     })
     storageDataUser(logInData);
+    console.log(logInData)
     navigation.navigate('Home')
   }
 

@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const MainStack = () => {
   const [dataStorage, setDataStorage] = useState('');
 
-  useEffect(() => {
+  // useEffect(() => {
     const getData = async () => {
       try {
         const jsonValue = await AsyncStorage.getItem('user')
@@ -19,7 +19,7 @@ const MainStack = () => {
       }
     }
     getData();
-  })
+  // })
 
   return(
     <Stack.Navigator>

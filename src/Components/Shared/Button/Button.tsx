@@ -27,5 +27,15 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#f9f9f9'
+  },
+  logInButton: {
+    width: 100,
+    padding: 5,
+    fontSize: 20,
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: 'blue',
+    borderRadius: 15,
+    overflow:'hidden',
   }
 })

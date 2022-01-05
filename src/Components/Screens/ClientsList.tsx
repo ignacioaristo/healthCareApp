@@ -10,14 +10,14 @@ const ClientsList = ({ navigation: any }) => {
   const [selectedClient, setSelectedClient] = useState('');
 
   const deleteClient = (id: number) => {
-    return setClientList(clientList.filter((client) => client.id != id))
+    return setClientList(clientList.filter((client) => client.id !== id))
   }
 
   const handleUpdate = (id: number, name: string, lastName: string, email: string, age: number | string) => {
     setSelectedClient({
       id: id,
-      first_name: name,
-      last_name: lastName,
+      firstName: name,
+      lastName: lastName,
       email: email,
       age: age,
     })
@@ -32,8 +32,8 @@ const ClientsList = ({ navigation: any }) => {
         renderItem={((client) => {
           return (
             <View style={styles.rowContainer}>
-              <TouchableOpacity onPress={() => handleUpdate(client.item.id, client.item.first_name, client.item.last_name, client.item.email, client.item.age)}>
-                <Text style={styles.row}>{`${client.item.last_name} ${client.item.first_name}`}</Text>
+              <TouchableOpacity onPress={() => handleUpdate(client.item.id, client.item.firstName, client.item.lastName, client.item.email, client.item.age)}>
+                <Text style={styles.row}>{`${client.item.lastName} ${client.item.firstName}`}</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => deleteClient(client.item.id)} style={styles.deleteButton}>
                 <Text>X</Text>

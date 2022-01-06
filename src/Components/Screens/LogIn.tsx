@@ -2,25 +2,22 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Svg, {Path} from 'react-native-svg';
-import Logo from './sony-logo.svg';
+import Logo from './logo.svg';
+
 
 const LogIn = ({ navigation }) => {
 
-  // useEffect(() => {
-    const getData = async () => {
-      try {
-        const jsonValue = await AsyncStorage.getItem('user')
-        // console.log(jsonValue);
-        if(jsonValue !== null){
-          return navigation.navigate('Home')
-        }
-      } catch(error) {
-        return error;
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('user')
+      if(jsonValue !== null){
+        return navigation.navigate('Home')
       }
+    } catch(error) {
+      return error;
     }
-    getData();
-  // }, [])
+  }
+  getData();
 
   const [logInData, setLogInData] = useState({
     username: '',
@@ -55,6 +52,7 @@ const LogIn = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <Logo width={100} height={100} />
       <Controller
         control={control}
         name='username'
@@ -81,7 +79,6 @@ const LogIn = ({ navigation }) => {
         />
       }
       />
-      {/* <Logo width={120} height={40} /> */}
       <TouchableOpacity onPress={handleSubmit(logInSubmit)}>
         <Text style={styles.logInButton}>
           Log In

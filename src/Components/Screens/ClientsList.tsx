@@ -4,6 +4,7 @@ import ClientsDATA from '../../../MOCK_DATA.json';
 import ClientForm from './ClientForm';
 import { styles } from './stylesClientsList';
 import { stringify, v4 as uuidv4 } from 'uuid';
+import Logo from '../../assets/logo.svg';
 
 const ClientsList = ({ navigation: any }) => {
 
@@ -24,10 +25,6 @@ const ClientsList = ({ navigation: any }) => {
     })
   }
 
-  const editClient = (client): void => {
-    setSelectedClient(client);
-  };
-
   const handleEdit = (client): void => {
     setClientList(clientList.map((item) => (item.id === client.id ? client : item)));
     setSelectedClient(undefined);
@@ -39,6 +36,7 @@ const ClientsList = ({ navigation: any }) => {
 
   return (
     <View>
+      <Logo width={100} height={100} />
       <ClientForm
         clientList={clientList}
         setClientList={setClientList}

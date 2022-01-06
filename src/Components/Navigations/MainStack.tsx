@@ -4,8 +4,7 @@ import Home from '../Screens/Home';
 import ClientsList from '../Screens/ClientsList';
 import LogIn from '../Screens/LogIn';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Logo from '../../assets/logo.svg';
-import IconAntDesign from 'react-native-vector-icons/AntDesign';
+import IconFontisto from 'react-native-vector-icons/Fontisto';
 
 const MainStack = () => {
   const Stack = createNativeStackNavigator();
@@ -23,24 +22,37 @@ const MainStack = () => {
     getData();
   // })
 
-  {/* <IconAntDesign name="stepbackward" size={50}/> */}
-
-
   return(
     <Stack.Navigator>
       <Stack.Screen
         name="Log In"
         component={LogIn}
         options={{
-          title: dataStorage ? dataStorage.username : 'Log in',}} />
+          headerBackTitleVisible: false,
+          title: dataStorage ? dataStorage.username : 'Log in',
+          }}
+        />
       <Stack.Screen
         name="Home"
         component={Home}
-        options={{title: dataStorage ? dataStorage.username : 'Home'}} />
+        options={{
+          headerRight: () => (
+            <IconFontisto name="person" size={50}/>
+          ),
+          headerBackTitleVisible: false,
+          title: dataStorage ? dataStorage.username : 'Home'
+          }}
+        />
       <Stack.Screen
         name= 'Clients'
         component= {ClientsList}
-        options={{title: dataStorage ? dataStorage.username : 'Client List'}}
+        options={{
+          headerRight: () => (
+            <IconFontisto name="person" size={50}/>
+          ),
+          headerBackTitleVisible: false,
+          title: dataStorage ? dataStorage.username : 'Client List'
+          }}
         />
       </Stack.Navigator>
   )

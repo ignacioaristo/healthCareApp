@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, FlatList, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, FlatList, TouchableOpacity } from 'react-native';
 import ClientsDATA from '../../../MOCK_DATA.json';
 import ClientForm from './ClientForm';
 import { styles } from './stylesClientsList';
 import { stringify, v4 as uuidv4 } from 'uuid';
-import Logo from '../../assets/logo.svg';
+import IconEntypo from 'react-native-vector-icons/Entypo';
 
 const ClientsList = ({ navigation: any }) => {
 
@@ -36,7 +36,6 @@ const ClientsList = ({ navigation: any }) => {
 
   return (
     <View>
-      <Logo width={100} height={100} />
       <ClientForm
         clientList={clientList}
         setClientList={setClientList}
@@ -49,12 +48,17 @@ const ClientsList = ({ navigation: any }) => {
         renderItem={((client) => {
           return (
             <View style={styles.rowContainer}>
-              <TouchableOpacity onPress={() => handleUpdate(client.item.id, client.item.firstName, client.item.lastName, client.item.email, client.item.age)}>
+              <TouchableOpacity>
                 <Text style={styles.row}>{`${client.item.lastName} ${client.item.firstName}`}</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => deleteClient(client.item.id)} style={styles.deleteButton}>
-                <Text>X</Text>
-              </TouchableOpacity>
+              <View style={styles.actionSection}>
+                <TouchableOpacity onPress={() => handleUpdate(client.item.id, client.item.firstName, client.item.lastName, client.item.email, client.item.age)}>
+                  <IconEntypo name='pencil' size={20} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => deleteClient(client.item.id)} style={styles.deleteButton}>
+                  <IconEntypo name='cross' size={20} />
+                </TouchableOpacity>
+              </View>
             </View>
           )
         }

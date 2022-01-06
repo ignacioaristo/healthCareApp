@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Logo from './logo.svg';
+import Logo from '../../assets/logo.svg';
 
 
 const LogIn = ({ navigation }) => {

@@ -14,5 +14,10 @@ export const styles = StyleSheet.create({
   },
   deleteButton: {
     margin: 15,
+  },
+  actionSection: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 })

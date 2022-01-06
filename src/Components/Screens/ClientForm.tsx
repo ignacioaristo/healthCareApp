@@ -1,26 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import { stringify, v4 as uuidv4 } from 'uuid';
 
 const ClientForm = (props: any) => {
 
-  const onSubmitPressed = (data) => {
-    const newClient = {
-      id: uuidv4(),
-      firstName: data.firstName,
-      lastName: data.lastName,
-      email: data.email,
-      age: data.age,
+  useEffect(() => {
+    if(props.selectedClient){
+      setValue('firstName', props.selectedClient.firstName);
+      setValue('lastName', props.selectedClient.lastName);
+      setValue('email', props.selectedClient.email);
+      setValue('age', props.selectedClient.age?.toString());
     }
-
-    props.setClientList([...props.clientList, newClient])
-
-    setValue('firstName', '');
-    setValue('lastName', '');
-    setValue('email', '');
-    setValue('age', '');
-  }
+  }, [props.selectedClient])
 
   const { control, handleSubmit, reset, setValue } = useForm({
     defaultValues: {
@@ -31,10 +23,10 @@ const ClientForm = (props: any) => {
     },
   });
 
-  setValue('firstName', props.selectedClient.firstName);
-  setValue('lastName', props.selectedClient.lastName);
-  setValue('email', props.selectedClient.email);
-  setValue('age', props.selectedClient.age?.toString());
+  const onSubmitPressed = (data) => {
+    props.onSubmit({ ...data, id: props.selectedClient?.id })
+    reset();
+}
 
   return (
     <View>

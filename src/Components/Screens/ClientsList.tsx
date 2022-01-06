@@ -3,6 +3,7 @@ import { Text, View, FlatList, TouchableOpacity, TextInput } from 'react-native'
 import ClientsDATA from '../../../MOCK_DATA.json';
 import ClientForm from './ClientForm';
 import { styles } from './stylesClientsList';
+import { stringify, v4 as uuidv4 } from 'uuid';
 
 const ClientsList = ({ navigation: any }) => {
 
@@ -23,9 +24,27 @@ const ClientsList = ({ navigation: any }) => {
     })
   }
 
+  const editClient = (client): void => {
+    setSelectedClient(client);
+  };
+
+  const handleEdit = (client): void => {
+    setClientList(clientList.map((item) => (item.id === client.id ? client : item)));
+    setSelectedClient(undefined);
+  }
+
+  const handleAdd = (client): void => {
+    setClientList([...clientList, { ...client, id: uuidv4() }]);
+  }
+
   return (
     <View>
-      <ClientForm clientList={clientList} setClientList={setClientList} selectedClient={selectedClient} />
+      <ClientForm
+        clientList={clientList}
+        setClientList={setClientList}
+        selectedClient={selectedClient}
+        onSubmit={selectedClient ? handleEdit : handleAdd}
+      />
       <FlatList
         data={clientList}
         keyExtractor={(client) => `${client.id}`}

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 
 const ClientForm = (props: any) => {
@@ -23,13 +23,25 @@ const ClientForm = (props: any) => {
   });
 
   const onSubmitPressed = (data) => {
-    props.onSubmit({ ...data, id: props.selectedClient?.id })
-    reset();
+    try {
+
+      props.onSubmit({ ...data, id: props.selectedClient?.id })
+      reset();
+    }
+    catch(err: any) {
+      Alert.alert(
+        "Alert Title",
+        err.toString(),
+        [
+          { text: "OK", onPress: () => console.log("OK Pressed") }
+        ]
+      );
+    }
 }
 
   return (
     <View>
-      <Text>Client Form:</Text>
+       <Text>Client Form:</Text>
       <View>
         <Controller
           control={control}

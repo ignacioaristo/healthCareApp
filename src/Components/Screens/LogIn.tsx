@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Logo from './logo.svg';
+import Logo from '../../assets/logo.svg';
 
 
 const LogIn = ({ navigation }) => {
@@ -10,74 +10,82 @@ const LogIn = ({ navigation }) => {
   const getData = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem('user')
-      if(jsonValue !== null){
+      if (jsonValue !== null) {
         return navigation.navigate('Home')
       }
-    } catch(error) {
+    } catch (error) {
       return error;
     }
   }
   getData();
 
-  const [logInData, setLogInData] = useState({
-    username: '',
-    password: ''
-  });
+  const { control, handleSubmit } = useForm();
 
-  const { control, handleSubmit, reset, setValue } = useForm();
+  // console.log(errors.username?.message, errors.password?.message);
 
   const storageDataUser = async (logInData: IUser) => {
     try {
       const jsonValue = JSON.stringify(logInData)
-      await AsyncStorage.setItem('user', jsonValue)
+      return await AsyncStorage.setItem('user', jsonValue)
     } catch (error) {
       return error;
     }
   }
-
   interface IUser {
     username: string,
     password: string,
   }
 
-  const logInSubmit = (data: IUser) => {
-    setLogInData({
-      username: data.username,
-      password: data.password,
-    })
-    storageDataUser(logInData);
-    console.log(logInData)
-    navigation.navigate('Home')
+  const logInSubmit = async (data: IUser) => {
+    try {
+      await AsyncStorage.setItem('user', JSON.stringify({
+        username: data.username,
+        password: data.password,
+      }))
+      navigation.navigate('Home');
+    } catch (error) {
+      return error;
+    }
   }
 
   return (
     <View style={styles.container}>
-      <Logo width={100} height={100} />
+      <Logo width={200} height={200} />
       <Controller
         control={control}
         name='username'
-        render={({ field: { value, onChange, onBlur } }) =>
-        <TextInput
-        placeholder='Username'
-        onChangeText={onChange}
-        onBlur={onBlur}
-        value={value}
-        style={styles.input}
-        />
-      }
+        rules={{ required: 'Username is required' }}
+        render={({ field: { value, onChange, onBlur }, fieldState:{error} }) => (
+          <>
+            <TextInput
+              placeholder='Username'
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+              style={styles.input}
+            />
+            {error && (<Text>{error?.message}</Text>)}
+          </>
+          )
+        }
       />
       <Controller
         control={control}
         name='password'
-        render={({ field: { value, onChange, onBlur } }) =>
-        <TextInput
-        placeholder='Password'
-        onChangeText={onChange}
-        onBlur={onBlur}
-        value={value}
-        style={styles.input}
-        />
-      }
+        rules={{ required: 'Password is required'}}
+        render={({ field: { value, onChange, onBlur }, fieldState:{error} }) =>
+        <>
+          <TextInput
+            placeholder='Password'
+            onChangeText={onChange}
+            onBlur={onBlur}
+            value={value}
+            style={styles.input}
+            secureTextEntry={true}
+          />
+          {error && (<Text>{error?.message}</Text>)}
+        </>
+        }
       />
       <TouchableOpacity onPress={handleSubmit(logInSubmit)}>
         <Text style={styles.logInButton}>
@@ -113,6 +121,6 @@ const styles = StyleSheet.create({
     color: 'white',
     backgroundColor: 'blue',
     borderRadius: 15,
-    overflow:'hidden',
+    overflow: 'hidden',
   }
 })

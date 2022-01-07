@@ -4,45 +4,52 @@ import Home from '../Screens/Home';
 import ClientsList from '../Screens/ClientsList';
 import LogIn from '../Screens/LogIn';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Logo from '../../assets/logo.svg';
-import IconAntDesign from 'react-native-vector-icons/AntDesign';
+import IconFontisto from 'react-native-vector-icons/Fontisto';
 
 const MainStack = () => {
   const Stack = createNativeStackNavigator();
-  const [dataStorage, setDataStorage] = useState('');
+  const [title, setTitle] = useState('');
 
-  // useEffect(() => {
-    const getData = async () => {
-      try {
-        const jsonValue = await AsyncStorage.getItem('user')
-        setDataStorage(jsonValue != null ? JSON.parse(jsonValue) : null);
-      } catch(error) {
-        return error;
-      }
-    }
-    getData();
-  // })
+  useEffect(() => {
+    AsyncStorage.getItem('user').then((response) => {
+      const data = JSON.parse(response || "")
+      setTitle(data?.username)
+    })
+  }, [])
 
-  {/* <IconAntDesign name="stepbackward" size={50}/> */}
-
-
-  return(
+  return (
     <Stack.Navigator>
       <Stack.Screen
         name="Log In"
         component={LogIn}
         options={{
-          title: dataStorage ? dataStorage.username : 'Log in',}} />
+          headerBackTitleVisible: false,
+          // title: title || 'Log in',
+        }}
+      />
       <Stack.Screen
         name="Home"
         component={Home}
-        options={{title: dataStorage ? dataStorage.username : 'Home'}} />
+        options={{
+          headerRight: () => (
+            <IconFontisto name="person" size={50} />
+          ),
+          headerBackTitleVisible: false,
+          // title: title || 'Home',
+        }}
+      />
       <Stack.Screen
-        name= 'Clients'
-        component= {ClientsList}
-        options={{title: dataStorage ? dataStorage.username : 'Client List'}}
-        />
-      </Stack.Navigator>
+        name='Clients'
+        component={ClientsList}
+        options={{
+          headerRight: () => (
+            <IconFontisto name="person" size={50} />
+          ),
+          headerBackTitleVisible: false,
+          // title: title || 'Client List',
+        }}
+      />
+    </Stack.Navigator>
   )
 }
 

@@ -19,8 +19,9 @@ const LogIn = ({ navigation }) => {
   }
   getData();
 
-  const { control, handleSubmit, formState:{errors},} = useForm();
-  // console.log(errors);
+  const { control, handleSubmit } = useForm();
+
+  // console.log(errors.username?.message, errors.password?.message);
 
   const storageDataUser = async (logInData: IUser) => {
     try {
@@ -53,33 +54,39 @@ const LogIn = ({ navigation }) => {
       <Controller
         control={control}
         name='username'
-        
-        render={({ field: { value, onChange, onBlur } }) => (
+        rules={{ required: 'Username is required' }}
+        render={({ field: { value, onChange, onBlur }, fieldState:{error} }) => (
+          <>
+            <TextInput
+              placeholder='Username'
+              onChangeText={onChange}
+              onBlur={onBlur}
+              value={value}
+              style={styles.input}
+            />
+            {error && (<Text>{error?.message}</Text>)}
+          </>
+          )
+        }
+      />
+      <Controller
+        control={control}
+        name='password'
+        rules={{ required: 'Password is required'}}
+        render={({ field: { value, onChange, onBlur }, fieldState:{error} }) =>
+        <>
           <TextInput
-            placeholder='Username'
+            placeholder='Password'
             onChangeText={onChange}
             onBlur={onBlur}
             value={value}
             style={styles.input}
+            secureTextEntry={true}
           />
-        )}
+          {error && (<Text>{error?.message}</Text>)}
+        </>
+        }
       />
-      {/* {errors.username ? <Text>{errors.username.message}</Text> : null} */}
-      <Controller
-        control={control}
-        name='password'
-        render={({ field: { value, onChange, onBlur } }) =>
-        <TextInput
-        placeholder='Password'
-        onChangeText={onChange}
-        onBlur={onBlur}
-        value={value}
-        style={styles.input}
-        secureTextEntry={true}
-        />
-      }
-      />
-      <Text>{errors.username}</Text>
       <TouchableOpacity onPress={handleSubmit(logInSubmit)}>
         <Text style={styles.logInButton}>
           Log In

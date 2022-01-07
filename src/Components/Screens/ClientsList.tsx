@@ -3,7 +3,6 @@ import { Text, View, FlatList, TouchableOpacity } from 'react-native';
 import ClientsDATA from '../../../MOCK_DATA.json';
 import ClientForm from './ClientForm';
 import { styles } from './stylesClientsList';
-import { stringify, v4 as uuidv4 } from 'uuid';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 
 const ClientsList = ({ navigation: any }) => {
@@ -31,7 +30,7 @@ const ClientsList = ({ navigation: any }) => {
   }
 
   const handleAdd = (client): void => {
-    setClientList([...clientList, { ...client, id: uuidv4() }]);
+    setClientList([...clientList, { ...client, id: new Date().getTime() }]);
   }
 
   return (

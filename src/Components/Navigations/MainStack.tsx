@@ -8,53 +8,48 @@ import IconFontisto from 'react-native-vector-icons/Fontisto';
 
 const MainStack = () => {
   const Stack = createNativeStackNavigator();
-  const [dataStorage, setDataStorage] = useState('');
+  const [title, setTitle] = useState('');
 
-  // useEffect(() => {
-    const getData = async () => {
-      try {
-        const jsonValue = await AsyncStorage.getItem('user')
-        setDataStorage(jsonValue != null ? JSON.parse(jsonValue) : null);
-      } catch(error) {
-        return error;
-      }
-    }
-    getData();
-  // })
+  useEffect(() => {
+    AsyncStorage.getItem('user').then((response) => {
+      const data = JSON.parse(response || "")
+      setTitle(data?.username)
+    })
+  }, [])
 
-  return(
+  return (
     <Stack.Navigator>
       <Stack.Screen
         name="Log In"
         component={LogIn}
         options={{
           headerBackTitleVisible: false,
-          title: dataStorage ? dataStorage.username : 'Log in',
-          }}
-        />
+          // title: title || 'Log in',
+        }}
+      />
       <Stack.Screen
         name="Home"
         component={Home}
         options={{
           headerRight: () => (
-            <IconFontisto name="person" size={50}/>
+            <IconFontisto name="person" size={50} />
           ),
           headerBackTitleVisible: false,
-          title: dataStorage ? dataStorage.username : 'Home'
-          }}
-        />
+          // title: title || 'Home',
+        }}
+      />
       <Stack.Screen
-        name= 'Clients'
-        component= {ClientsList}
+        name='Clients'
+        component={ClientsList}
         options={{
           headerRight: () => (
-            <IconFontisto name="person" size={50}/>
+            <IconFontisto name="person" size={50} />
           ),
           headerBackTitleVisible: false,
-          title: dataStorage ? dataStorage.username : 'Client List'
-          }}
-        />
-      </Stack.Navigator>
+          // title: title || 'Client List',
+        }}
+      />
+    </Stack.Navigator>
   )
 }
 

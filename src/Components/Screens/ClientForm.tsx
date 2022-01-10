@@ -24,7 +24,6 @@ const ClientForm = (props: any) => {
 
   const onSubmitPressed = (data) => {
     try {
-
       props.onSubmit({ ...data, id: props.selectedClient?.id })
       reset();
     }

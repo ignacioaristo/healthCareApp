@@ -1,6 +1,6 @@
-// /**
-//  * @format
-//  */
+/**
+ * @format
+ */
 
 // import 'react-native';
 // import React from 'react';
@@ -14,17 +14,22 @@
 // });
 
 import React from 'react';
-import { render } from '@testing-library/react-native';
+// import { render } from '@testing-library/react-native';
+import renderer from 'react-test-renderer';
 import App from '../App';
 
 let component: any;
 
-describe("<App />", () => {
-  beforeEach(() => {
-    component = render(<App />);
-  })
+// describe("<App />", () => {
+//   beforeEach(() => {
+//     component = renderer(<App />);
+//   })
 
-  it('Renderiza correctamente'), () => {
-    expect(component).toBeDefined;
-  }
+//   it('Renderiza correctamente'), () => {
+//     expect(component).toBeDefined;
+//   }
+// })
+
+it('asd', () => {
+  renderer.create(<App />)
 })

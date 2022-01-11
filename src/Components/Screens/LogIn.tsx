@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import IconEntypo from 'react-native-vector-icons/Entypo';
 import Logo from '../../assets/logo.svg';
 
 
 const LogIn = ({ navigation }) => {
+
+  const [showPassword, setShowPassword] = useState(false)
 
   const getData = async () => {
     try {
@@ -34,6 +37,11 @@ const LogIn = ({ navigation }) => {
   interface IUser {
     username: string,
     password: string,
+  }
+
+  const handleShowPassword = (e) => {
+    e.preventDefault();
+    setShowPassword(!showPassword);
   }
 
   const logInSubmit = async (data: IUser) => {
@@ -75,14 +83,17 @@ const LogIn = ({ navigation }) => {
         rules={{ required: 'Password is required'}}
         render={({ field: { value, onChange, onBlur }, fieldState:{error} }) =>
         <>
+        <View style={styles.showPassword}>
           <TextInput
             placeholder='Password'
             onChangeText={onChange}
             onBlur={onBlur}
             value={value}
             style={styles.input}
-            secureTextEntry={true}
+            secureTextEntry={showPassword ? false : true}
           />
+          <IconEntypo onPress={handleShowPassword} name='eye' size={20} />
+        </View>
           {error && (<Text>{error?.message}</Text>)}
         </>
         }
@@ -122,5 +133,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'blue',
     borderRadius: 15,
     overflow: 'hidden',
+  },
+  showPassword: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 })

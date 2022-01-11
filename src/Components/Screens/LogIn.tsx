@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import IconEntypo from 'react-native-vector-icons/Entypo';
@@ -24,8 +24,6 @@ const LogIn = ({ navigation }) => {
 
   const { control, handleSubmit } = useForm();
 
-  // console.log(errors.username?.message, errors.password?.message);
-
   const storageDataUser = async (logInData: IUser) => {
     try {
       const jsonValue = JSON.stringify(logInData)
@@ -39,8 +37,7 @@ const LogIn = ({ navigation }) => {
     password: string,
   }
 
-  const handleShowPassword = (e) => {
-    e.preventDefault();
+  const handleShowPassword = () => {
     setShowPassword(!showPassword);
   }
 
@@ -57,7 +54,7 @@ const LogIn = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <Animated.View style={styles.container}>
       <Logo width={200} height={200} />
       <Controller
         control={control}
@@ -72,7 +69,7 @@ const LogIn = ({ navigation }) => {
               value={value}
               style={styles.input}
             />
-            {error && (<Text>{error?.message}</Text>)}
+            {error && (<Text style={styles.errorMessage} >{error?.message}</Text>)}
           </>
           )
         }
@@ -94,16 +91,16 @@ const LogIn = ({ navigation }) => {
           />
           <IconEntypo onPress={handleShowPassword} name='eye' size={20} />
         </View>
-          {error && (<Text>{error?.message}</Text>)}
+          {error && (<Text style={styles.errorMessage}>{error?.message}</Text>)}
         </>
         }
       />
-      <TouchableOpacity onPress={handleSubmit(logInSubmit)}>
+      <TouchableOpacity activeOpacity={0.6} onPress={handleSubmit(logInSubmit)}>
         <Text style={styles.logInButton}>
           Log In
         </Text>
       </TouchableOpacity>
-    </View>
+    </Animated.View>
   )
 }
 
@@ -138,5 +135,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  errorMessage: {
+    color: 'red',
   }
 })

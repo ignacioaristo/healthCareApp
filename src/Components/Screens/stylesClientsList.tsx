@@ -1,4 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
+
+const WIDTH = Dimensions.get('window').width;
+const HEIGTH_MODAL = 150;
 
 export const styles = StyleSheet.create({
   row: {
@@ -19,5 +22,24 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  modalContainer: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderWidth: 3,
+    width: WIDTH - 100,
+    height: HEIGTH_MODAL,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    marginLeft: 50,
+    marginTop: '75%',
+  },
+  crossModal: {
+    alignSelf: 'flex-end'
+  },
+  infoModal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 35,
   }
 })

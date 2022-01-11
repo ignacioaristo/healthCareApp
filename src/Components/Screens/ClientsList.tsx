@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, FlatList, TouchableOpacity } from 'react-native';
+import { Text, View, FlatList, TouchableOpacity, Modal } from 'react-native';
 import ClientsDATA from '../../../MOCK_DATA.json';
 import ClientForm from './ClientForm';
 import { styles } from './stylesClientsList';
@@ -9,6 +9,27 @@ const ClientsList = ({ navigation: any }) => {
 
   const [clientList, setClientList] = useState(ClientsDATA);
   const [selectedClient, setSelectedClient] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [clientForModal, setClientForModal] = useState({
+    firstName: '',
+    lastName: '',
+    age: '',
+    email: '',
+  })
+
+  const openModal = (firstName, lastName, age, email) => {
+    setClientForModal({
+      firstName: firstName,
+      lastName: lastName,
+      age: age,
+      email: email,
+    })
+    setShowModal(true);
+  }
+
+  const closeModal = () => {
+    setShowModal(false);
+  }
 
   const deleteClient = (id: number) => {
     return setClientList(clientList.filter((client) => client.id !== id))
@@ -35,6 +56,32 @@ const ClientsList = ({ navigation: any }) => {
 
   return (
     <View>
+      <Modal
+        transparent={true}
+        visible={showModal}
+        animationType={'slide'}
+        onRequestClose={() => closeModal()}
+      >
+        <View style={styles.modalContainer}>
+          <Text style={styles.crossModal} onPress={() => closeModal()}>
+            x
+          </Text>
+          <View style={styles.infoModal}>
+            <Text>
+              First name: {clientForModal.firstName}
+            </Text>
+            <Text>
+            Last name: {clientForModal.lastName}
+            </Text>
+            <Text>
+            Age: {clientForModal.age}
+            </Text>
+            <Text>
+            Email: {clientForModal.email}
+            </Text>
+          </View>
+        </View>
+      </Modal>
       <ClientForm
         clientList={clientList}
         setClientList={setClientList}
@@ -47,7 +94,7 @@ const ClientsList = ({ navigation: any }) => {
         renderItem={((client) => {
           return (
             <View style={styles.rowContainer}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => openModal(client.item.firstName, client.item.lastName, client.item.age, client.item.email)}>
                 <Text style={styles.row}>{`${client.item.lastName} ${client.item.firstName}`}</Text>
               </TouchableOpacity>
               <View style={styles.actionSection}>

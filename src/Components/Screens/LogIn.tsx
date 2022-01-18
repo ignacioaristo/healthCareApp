@@ -4,23 +4,26 @@ import { useForm, Controller } from 'react-hook-form';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import IconEntypo from 'react-native-vector-icons/Entypo';
 import Logo from '../../assets/logo.svg';
-
+import Clipboard from '@react-native-clipboard/clipboard';
 
 const LogIn = ({ navigation }) => {
 
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
+  const [textCopied, setTextCopied] = useState('');
 
-  const getData = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem('user')
-      if (jsonValue !== null) {
-        return navigation.navigate('Home')
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem('user')
+        if (jsonValue !== null) {
+          return navigation.navigate('Home')
+        }
+      } catch (error) {
+        return error;
       }
-    } catch (error) {
-      return error;
     }
-  }
-  getData();
+    getData();
+  }, []);
 
   const { control, handleSubmit } = useForm();
 
@@ -53,6 +56,17 @@ const LogIn = ({ navigation }) => {
     }
   }
 
+  const copyText = (data) => {
+    Clipboard.setString(data);
+    console.log(data);
+  }
+
+  const fetchCopiedText = async () => {
+    const text = await Clipboard.getString();
+    setTextCopied(text);
+  };
+
+
   return (
     <Animated.View style={styles.container}>
       <Logo width={200} height={200} />
@@ -69,7 +83,14 @@ const LogIn = ({ navigation }) => {
               value={value}
               style={styles.input}
             />
+            <TouchableOpacity onPress={() => copyText(value)} >
+              <Text>Copy text</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => fetchCopiedText()} >
+              <Text>Past Text</Text>
+            </TouchableOpacity>
             {error && (<Text style={styles.errorMessage} >{error?.message}</Text>)}
+            <Text>{textCopied}</Text>
           </>
           )
         }
